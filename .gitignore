@@ -24,3 +24,7 @@ CVS/
 # Old files and backup stuff
 *.old
 *.bak
+
+# build
+/dinbrief.egg-info
+/dist

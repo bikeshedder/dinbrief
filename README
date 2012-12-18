@@ -1,0 +1,3 @@
+This package provides code for rendering PDF letters compliant to
+DIN 5008 and DIN 676 using reportlab. The so called "DIN Brief" is
+fits into "DIN-lang" window envelopes.

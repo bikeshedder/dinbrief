@@ -3,11 +3,11 @@ from decimal import Decimal
 
 class Item(object):
 
-    def __init__(self, position=0, name='', period='', price=Decimal(0),
+    def __init__(self, position=0, text='', period='', price=Decimal(0),
             unit='', quantity=Decimal(1), discount=Decimal(0),
             vat_rate=Decimal(0)):
         self.position = position
-        self.name = name
+        self.text = text
         self.period = period
         self.price = price
         self.unit = unit

@@ -71,7 +71,7 @@ def ItemTable(invoice):
                 style.append(('SPAN', (1, row), (2, row)))
             yield (
                 Number(unicode(item.position)),
-                Cell(escape(item.name)),
+                Cell(escape(item.text)),
                 Cell(escape(item.period)),
                 Number(u'%s €' % number_format(item.price, 2)),
                 Cell((u'/%s' % escape(item.get_unit_display()))

@@ -72,7 +72,7 @@ def ItemTable(invoice):
             yield (
                 Number(unicode(item.position)),
                 Cell(escape(item.text)),
-                Cell(escape(item.period)),
+                Cell(escape(item.period) if item.period else u''),
                 Number(u'%s €' % number_format(item.price, 2)),
                 Cell((u'/%s' % escape(item.get_unit_display()))
                     if item.unit else u''),

@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-02-03 14:17-0600\n"
+"Last-Translator: Michael P. Jung <michael.jung@terreon.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: invoice/item_table.py:63
+msgid "Description"
+msgstr "Beschreibung"
+
+#: invoice/item_table.py:64
+msgid "Period"
+msgstr "Zeitraum"
+
+#: invoice/item_table.py:65
+msgid "Date"
+msgstr "Datum"
+
+#: invoice/item_table.py:66
+msgid "Unit Price"
+msgstr "Einzelpreis"
+
+#: invoice/item_table.py:68
+msgid "Quantity"
+msgstr "Anzahl"
+
+#: invoice/item_table.py:69
+msgid "Line Total"
+msgstr "Gesamtpreis"
+
+#: invoice/item_table.py:93
+msgid "discount"
+msgstr "Rabatt"
+
+#: invoice/total_table.py:46 invoice/total_table.py:82
+msgid "Sum (net)"
+msgstr "Summe (netto)"
+
+#: invoice/total_table.py:54
+msgid "VAT"
+msgstr "USt"
+
+#: invoice/total_table.py:60
+msgid "Sum (gross)"
+msgstr "Summe (brutto)"

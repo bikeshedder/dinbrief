@@ -13,6 +13,7 @@ from reportlab.platypus.tables import TableStyle
 from ..constants import CONTENT_WIDTH
 from ..optional_django import ugettext as _
 from ..optional_django import number_format
+from ..optional_django import date_format
 from ..styles import styles
 
 
@@ -40,15 +41,19 @@ def ItemTable(invoice):
     ]
 
     show_period_column = any(item.period for item in invoice.items)
+    show_date_column = any(item.date for item in invoice.items) and \
+            not show_period_column
 
     col_widths = [
             8*mm, # position
             0,    # description
-            46*mm, # period
-            24*mm, # net price
-            14*mm, # unit
+            46*mm if show_period_column else # period
+            24*mm if show_date_column else # date
+            0, # neither period nor date
+            18*mm, # unit price
+            10*mm, # unit
             14*mm, # quantity
-            24*mm  # line total
+            24*mm  # sum price
     ]
     col_widths[1] = CONTENT_WIDTH - sum(col_widths)
 
@@ -57,8 +62,9 @@ def ItemTable(invoice):
         yield (
             HeadRight(u'#'),
             Head(_('Description')),
-            Head(_('Period') if show_period_column else ''),
-            HeadRight(_('Net Price')),
+            Head(_('Period') if show_period_column else
+                 _('Date') if show_date_column else ''),
+            HeadRight(_('Unit Price')),
             Head(u''),
             HeadRight(_('Quantity')),
             HeadRight(_('Line Total')),
@@ -67,12 +73,13 @@ def ItemTable(invoice):
         row = 0
         for item in invoice.items:
             row += 1
-            if not item.period:
+            if not (item.period or item.date):
                 style.append(('SPAN', (1, row), (2, row)))
             yield (
                 Number(unicode(item.position)),
                 Cell(escape(item.text)),
-                Cell(escape(item.period) if item.period else u''),
+                Cell(escape(item.period) if item.period else
+                     escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),
                 Number(u'%s €' % number_format(item.price, 2)),
                 Cell((u'/%s' % escape(item.get_unit_display()))
                     if item.unit else u''),

@@ -16,9 +16,6 @@ class Item(object):
         self.discount = discount
         self.vat_rate = vat_rate
 
-    def get_unit_display(self):
-        return self.unit
-
     @property
     def subtotal(self):
         return self.price * self.quantity

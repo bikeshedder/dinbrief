@@ -81,7 +81,7 @@ def ItemTable(invoice):
                 Cell(escape(item.period) if item.period else
                      escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),
                 Number(u'%s €' % number_format(item.price, 2)),
-                Cell((u'/%s' % escape(item.get_unit_display()))
+                Cell((u'/%s' % escape(item.unit))
                     if item.unit else u''),
                 Number(number_format(item.quantity, 2)),
                 Number(u'%s €' % number_format(item.subtotal, 2)),

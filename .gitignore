@@ -1,6 +1,6 @@
 # binary (compiled) files
 *.o
-*.mo
+#*.mo
 *.py[co]
 
 # other revision control systems

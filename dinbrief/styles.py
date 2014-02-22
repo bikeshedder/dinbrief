@@ -17,18 +17,24 @@ styles.add(ParagraphStyle(
 styles.add(ParagraphStyle(
     name='InfoboxTitle',
     parent=styles['Normal'],
-    fontSize=7,
+    fontSize=8,
     leading=8,
-    spaceAfter=0,
-    textColor=colors.white))
+    spaceAfter=0.5*mm))
 
 styles.add(ParagraphStyle(
     name='InfoboxText',
     parent=styles['Normal'],
     fontSize=10,
-    leading=10,
-    spaceAfter=1.5*mm,
-    textColor=colors.white))
+    leading=12,
+    spaceAfter=2*mm))
+
+styles.add(ParagraphStyle(
+    name='InfoboxNotice',
+    parent=styles['Normal'],
+    fontName='Helvetica-Bold',
+    fontSize=10,
+    spaceBefore=4*mm,
+    spaceAfter=4*mm))
 
 styles.add(ParagraphStyle(
     name='Footer',

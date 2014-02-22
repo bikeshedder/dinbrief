@@ -13,7 +13,7 @@ from reportlab.platypus import Table
 from reportlab.platypus import TableStyle
 
 from .constants import PAGE_SIZE, PAGE_WIDTH, PAGE_HEIGHT
-from .constants import CONTENT_LEFT, CONTENT_WIDTH
+from .constants import CONTENT_LEFT, CONTENT_RIGHT, CONTENT_WIDTH
 from .styles import styles
 
 
@@ -36,6 +36,11 @@ RECIPIENT_X = ADDRESS_X
 RECIPIENT_Y = ADDRESS_Y
 RECIPIENT_HEIGHT = ADDRESS_HEIGHT - 10*mm
 RECIPIENT_WIDTH = PAGE_WIDTH - ADDRESS_X
+
+INFOBOX_WIDTH = 85*mm
+INFOBOX_HEIGHT = 100*mm
+INFOBOX_X = PAGE_WIDTH - INFOBOX_WIDTH - CONTENT_RIGHT
+INFOBOX_Y = PAGE_HEIGHT - INFOBOX_HEIGHT - 20*mm
 
 DATE_Y = 45*mm
 DATE_HEIGHT = PAGE_HEIGHT-140*mm
@@ -135,6 +140,14 @@ class FirstPageTemplate(BasePageTemplate):
                     styles['Recipient']),
                 canvas)
 
+    def draw_infobox(self, canvas):
+        infobox = Frame(
+                INFOBOX_X, INFOBOX_Y,
+                INFOBOX_WIDTH, INFOBOX_HEIGHT,
+                0, 0, 0, 0)
+        for floatable in self.document.infobox:
+            infobox.add(floatable, canvas)
+
     def draw_date(self, canvas):
         frame = Frame(
                 CONTENT_LEFT, DATE_Y,
@@ -146,10 +159,10 @@ class FirstPageTemplate(BasePageTemplate):
                     styles['Date']),
                 canvas)
 
-
     def afterDrawPage(self, canvas, document):
         BasePageTemplate.afterDrawPage(self, canvas, document)
         self.draw_address(canvas)
+        self.draw_infobox(canvas)
         self.draw_date(canvas)
 
 

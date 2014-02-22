@@ -21,5 +21,6 @@ class Document(object):
         # Content
         self.sender = kwargs.pop('sender', self.sender or [])
         self.recipient = kwargs.pop('recipient', self.recipient or [])
+        self.infobox = kwargs.pop('infobox', [])
         self.date = kwargs.pop('date', self.date)
         self.content = kwargs.pop('content', self.content or [])

@@ -94,6 +94,14 @@ styles.add(ParagraphStyle(
     parent=styles['Normal']))
 
 styles.add(ParagraphStyle(
+    name='H2',
+    fontName='Helvetica-Bold',
+    fontSize=10,
+    spaceBefore=4*mm,
+    spaceAfter=4*mm,
+    parent=styles['Normal']))
+
+styles.add(ParagraphStyle(
     name='TableCell',
     fontSize=10,
     leading=10,

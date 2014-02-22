@@ -144,3 +144,9 @@ styles.add(ParagraphStyle(
 styles.add(ParagraphStyle(
     name='Signature',
     parent=styles['Text']))
+
+styles.add(ParagraphStyle(
+    name='FieldLabel',
+    parent=styles['Normal'],
+    fontSize=8,
+    spaceAfter=0))

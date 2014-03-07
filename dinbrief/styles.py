@@ -15,6 +15,13 @@ styles.add(ParagraphStyle(
 ))
 
 styles.add(ParagraphStyle(
+    name='InfoboxH1',
+    parent=styles['Normal'],
+    fontSize=16,
+    leading=8,
+    spaceAfter=10*mm))
+
+styles.add(ParagraphStyle(
     name='InfoboxTitle',
     parent=styles['Normal'],
     fontSize=8,

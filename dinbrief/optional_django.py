@@ -17,4 +17,4 @@ try:
     from django.utils.formats import date_format
 except ImportError:
     def date_format(value, format=None):
-        return unicode(value)
+        return u'%s' % value

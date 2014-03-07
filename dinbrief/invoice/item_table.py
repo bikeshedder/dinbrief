@@ -75,7 +75,7 @@ def ItemTable(invoice):
             if not (item.period or item.date):
                 style.append(('SPAN', (1, row), (2, row)))
             yield (
-                Number(unicode(item.position)),
+                Number(u'%s' % item.position),
                 Cell(escape(item.text)),
                 Cell(escape(item.period) if item.period else
                      escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),

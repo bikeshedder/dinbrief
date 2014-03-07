@@ -109,6 +109,7 @@ styles.add(ParagraphStyle(
 
 styles.add(ParagraphStyle(
     name='TableHead',
+    fontName='Helvetica-Bold',
     parent=styles['TableCell']))
 
 styles.add(ParagraphStyle(

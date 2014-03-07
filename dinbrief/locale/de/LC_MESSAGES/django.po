@@ -1,38 +1,70 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-03 14:17-0600\n"
+"POT-Creation-Date: 2014-03-07 13:37+0100\n"
 "Last-Translator: Michael P. Jung <michael.jung@terreon.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: invoice/item_table.py:63
+#: contrib/form.py:50
+msgid "Place, date and signature"
+msgstr "Ort, Datum und Unterschrift"
+
+#: contrib/form.py:60
+msgid "Postal code"
+msgstr "Postleitzahl"
+
+#: contrib/form.py:62
+msgid "City"
+msgstr "Ort"
+
+#: invoice/bank_transfer_form.py:47
+msgid "Account holder"
+msgstr "Kontoinhaber"
+
+#: invoice/bank_transfer_form.py:51
+msgid "IBAN"
+msgstr "IBAN"
+
+#: invoice/bank_transfer_form.py:55
+msgid "BIC"
+msgstr "BIC"
+
+#: invoice/bank_transfer_form.py:59
+msgid "Amount"
+msgstr "Betrag"
+
+#: invoice/bank_transfer_form.py:63
+msgid "Reference"
+msgstr "Verwendungszweck"
+
+#: invoice/item_table.py:64
 msgid "Description"
 msgstr "Beschreibung"
 
-#: invoice/item_table.py:64
+#: invoice/item_table.py:65
 msgid "Period"
 msgstr "Zeitraum"
 
-#: invoice/item_table.py:65
+#: invoice/item_table.py:66
 msgid "Date"
 msgstr "Datum"
 
-#: invoice/item_table.py:66
+#: invoice/item_table.py:67
 msgid "Unit Price"
 msgstr "Einzelpreis"
 
-#: invoice/item_table.py:68
+#: invoice/item_table.py:69
 msgid "Quantity"
 msgstr "Anzahl"
 
-#: invoice/item_table.py:69
+#: invoice/item_table.py:70
 msgid "Line Total"
 msgstr "Gesamtpreis"
 
-#: invoice/item_table.py:93
+#: invoice/item_table.py:94
 msgid "discount"
 msgstr "Rabatt"
 

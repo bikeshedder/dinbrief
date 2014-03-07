@@ -28,12 +28,11 @@ def ItemTable(invoice):
     style = [
         ('VALIGN', (0, 0), (-1,  0), 'BOTTOM'),
         ('VALIGN', (0, 1), (-1, -1), 'TOP'),
-        ('BACKGROUND', (0, 0), (-1, 0), colors.Color(0.8, 0.8, 0.8)),
         ('LINEBELOW', (0, 0), (-1, 0), 0.3*mm, colors.black),
         #('LINEBELOW', (0, 1), (-1, -1), 0.1*mm, colors.black),
         ('TOPPADDING', (0, 0), (-1, -1), 2*mm),
         ('RIGHTPADDING', (0, 0), (-1, -1), 2*mm),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 2*mm),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3*mm),
         ('LEFTPADDING', (0, 0), (-1, -1), 2*mm),
         # no padding between net price and unit
         ('RIGHTPADDING', (3, 0), (3, -1), 0),
@@ -50,10 +49,10 @@ def ItemTable(invoice):
             46*mm if show_period_column else # period
             24*mm if show_date_column else # date
             0, # neither period nor date
-            18*mm, # unit price
+            21*mm, # unit price
             10*mm, # unit
-            14*mm, # quantity
-            24*mm  # sum price
+            16*mm, # quantity
+            26*mm  # sum price
     ]
     col_widths[1] = CONTENT_WIDTH - sum(col_widths)
 

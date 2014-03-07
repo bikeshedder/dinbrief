@@ -29,11 +29,11 @@ setup(
     license='BSD',
     keywords='dinbrief DIN 5008 676 brief letter invoice pdf',
     url='https://bitbucket.org/terreon/dinbrief',
-    packages=['dinbrief', 'dinbrief.invoice'],
+    packages=['dinbrief', 'dinbrief.invoice', 'dinbrief.contrib'],
     #test_suite='dinbrief.tests',
     install_requires=read('requirements.txt').split('\n'),
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python :: 2.7',

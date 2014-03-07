@@ -51,7 +51,7 @@ def ItemTable(invoice):
             0, # neither period nor date
             21*mm, # unit price
             10*mm, # unit
-            16*mm, # quantity
+            20*mm, # quantity
             26*mm  # sum price
     ]
     col_widths[1] = CONTENT_WIDTH - sum(col_widths)

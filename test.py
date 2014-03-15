@@ -11,8 +11,10 @@ from reportlab.platypus.flowables import KeepTogether
 from reportlab.platypus.flowables import Spacer
 
 from dinbrief.constants import CONTENT_WIDTH
+from dinbrief.contrib.qrcode import QRCode
 from dinbrief.document import Document
 from dinbrief.invoice import Invoice, Item, ItemTable, TotalTable
+from dinbrief.invoice import BankTransferForm
 from dinbrief.styles import styles
 from dinbrief.template import BriefTemplate
 
@@ -47,6 +49,19 @@ with open('test.pdf', 'wb') as fh:
             Spacer(CONTENT_WIDTH, 2*mm),
             ItemTable(invoice),
             TotalTable(invoice),
+            Spacer(CONTENT_WIDTH, 10*mm),
+            BankTransferForm(
+                account_holder='Muster AG',
+                iban='DE00000000000000000000',
+                bic='XXXXDE00XXX',
+                amount=Decimal('6.66'),
+                reference='2012-0815'),
+            QRCode.sepa_credit_transfer(
+                account_holder='Muster AG',
+                iban='DE00000000000000000000',
+                bic='XXXXDE00XXX',
+                amount=Decimal(invoice.gross),
+                reference='2012-0815'),
         ])
     template = BriefTemplate(fh, document)
     template.build(document.content)

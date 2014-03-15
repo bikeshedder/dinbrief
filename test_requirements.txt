@@ -1,0 +1,3 @@
+pillof
+qrcode
+reportlab

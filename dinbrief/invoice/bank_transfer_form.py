@@ -16,9 +16,32 @@ from ..optional_django import number_format
 from ..styles import styles
 
 
-def BankTransferForm(account_holder, iban, bic, reference, amount, currency=u'â‚¬'):
+def BankTransferForm(account_holder, iban, bic, reference, amount,
+        currency=u'EUR', currency_label=u'â‚¬', show_qrcode=False):
 
-    table_style = [
+    col_widths = [40*mm, 60*mm]
+    row_heights = [7*mm, 6*mm, 6*mm, 6*mm, 7*mm]
+
+    table_style = []
+
+    if show_qrcode:
+        from ..contrib import qrcode
+        table_style += [
+            ('SPAN', (2, 0), (2, 4)),
+        ]
+        qrcode_size = sum(row_heights) - 4*mm
+        col_widths += [qrcode_size + 4*mm]
+        qrcode_image = qrcode.sepa_credit_transfer(
+            account_holder=account_holder,
+            iban=''.join(iban.split()),
+            bic=''.join(bic.split()),
+            reference=reference,
+            amount=amount,
+            currency=currency)
+        qrcode_image.drawWidth = qrcode_size
+        qrcode_image.drawHeight = qrcode_size
+
+    table_style += [
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('TOPPADDING', (0, 0), (-1, -1), 1*mm),
@@ -40,13 +63,11 @@ def BankTransferForm(account_holder, iban, bic, reference, amount, currency=u'â‚
         ('LINEBELOW', (0, -1), (-1, -1), 0.2*mm, colors.black),
     ]
 
-    col_widths = [40*mm, 60*mm]
-
     def data_generator():
         yield (
             Paragraph(_(u'Account holder') + ':', styles['TableCell']),
-            Paragraph(account_holder, styles['TableCell']),
-        )
+            Paragraph(account_holder, styles['TableCell'])
+        ) + ((qrcode_image,) if show_qrcode else ())
         yield (
             Paragraph(_(u'IBAN') + ':', styles['TableCell']),
             Paragraph(iban, styles['TableCell']),
@@ -57,7 +78,7 @@ def BankTransferForm(account_holder, iban, bic, reference, amount, currency=u'â‚
         )
         yield (
             Paragraph(_(u'Amount') + ':', styles['TableCell']),
-            Paragraph(u'%s %s' % (number_format(amount), currency), styles['TableCell']),
+            Paragraph(u'%s %s' % (number_format(amount, 2), currency_label), styles['TableCell']),
         )
         yield (
             Paragraph(_(u'Reference') + ':', styles['TableCell']),
@@ -67,5 +88,6 @@ def BankTransferForm(account_holder, iban, bic, reference, amount, currency=u'â‚
     return Table(
         data=list(data_generator()),
         colWidths=col_widths,
+        rowHeights=row_heights,
         style=TableStyle(table_style),
         hAlign='LEFT')

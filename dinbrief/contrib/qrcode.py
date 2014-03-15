@@ -1,56 +1,39 @@
 from __future__ import absolute_import
 
-from functools import partial
-
 from reportlab.lib import colors
 from reportlab.lib.units import mm, cm
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Flowable
 from reportlab.platypus.tables import Table
 from reportlab.platypus.tables import TableStyle
+from reportlab.graphics import renderPDF
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
 
 from ..styles import styles
 
 
-Head = partial(Paragraph, style=styles['TableHead'])
-HeadRight = partial(Paragraph, style=styles['TableHeadRight'])
-Cell = partial(Paragraph, style=styles['TableCell'])
-Number = partial(Paragraph, style=styles['TableNumber'])
-
-
-class QRCode(object):
+class QRCode(Flowable):
 
     def __init__(self, data, color=colors.black):
+        Flowable.__init__(self)
+        self.data = data
+        self.widget = QrCodeWidget(data, barLevel='M')
 
-        import qrcode
-        code = qrcode.QRCode(
-                error_correction=qrcode.constants.ERROR_CORRECT_M)
-        code.add_data(data)
-        code.make()
+    def wrap(self, availWidth, availHeight):
+        size = min(availWidth, availHeight)
+        size = max(size, 30*mm)
+        self.width = self.height = size
+        return (size, size)
 
-        style = []
-        col_widths = [1*mm] * code.modules_count
-        self.table = Table(
-            data=list(self._data(code)),
-            colWidths=col_widths,
-            rowHeights=col_widths,
-            style=TableStyle(self._style(code, color)),
-            repeatRows=0)
-
-    def _style(self, code, color):
-        modcount = code.modules_count
-        for r in range(modcount):
-            for c in range(modcount):
-                if code.modules[r][c]:
-                    yield ('BACKGROUND', (r, c), (r, c), color)
-        yield ('NOSPLIT', (0, 0), (-1, -1))
-
-    def _data(self, code):
-        modcount = code.modules_count
-        for r in range(modcount):
-            yield [''] * modcount
-
-    def __getattr__(self, name):
-        return getattr(self.table, name)
+    def draw(self):
+        bounds = self.widget.getBounds()
+        drawing = Drawing(
+                self.width, self.height,
+                transform=[self.width/bounds[2], 0, 0,
+                           self.height/bounds[3], 0, 0])
+        drawing.add(self.widget)
+        renderPDF.draw(drawing, self.canv, 0, 0)
+        self.widget.draw()
 
     # purpose: http://www.hettwer-beratung.de/sepa-spezialwissen/sepa-technische-anforderungen/sepa-purpose-codes-vs-dta-textschl%C3%BCssel/
     # SCVE = dienstleistungen

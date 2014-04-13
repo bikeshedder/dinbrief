@@ -52,6 +52,36 @@ class SignatureField(Field):
         super(SignatureField, self).__init__(label)
 
 
+class TwoSignaturesField(Field):
+    field_height = 15*mm
+
+    def __init__(self, label_left, label_right, field_height=None):
+        if field_height is not None:
+            self.field_height = field_height
+        self.flowable = Table(
+            data=[
+                ['', '', ''], # empty row for the text
+                [
+                    Paragraph(label_left, styles['FieldLabel']),
+                    '',
+                    Paragraph(label_right, styles['FieldLabel']),
+                ],
+            ],
+            colWidths=[80*mm, 10*mm, 80*mm],
+            rowHeights=[self.field_height, None],
+            style=TableStyle([
+                ('NOSPLIT', (0, 0), (-1, -1)),
+                ('TOPPADDING', (0, 0), (-1, -1), 0),
+                ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+                ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+                ('LEFTPADDING', (0, 0), (-1, -1), 0),
+                ('LINEBELOW', (0, 0), (0, 0), 0.2*mm, colors.black),
+                ('LINEBELOW', (2, 0), (2, 0), 0.2*mm, colors.black),
+            ]),
+            hAlign='LEFT'
+        )
+
+
 class PostalCodeAndCityField(FlowableProxy):
     field_height = 5*mm
     def __init__(self):

@@ -1,3 +1,3 @@
-pillof
+pillow
 qrcode
 reportlab

@@ -46,8 +46,10 @@ class Field(FlowableProxy):
 class SignatureField(Field):
     field_height = 15*mm
 
-    def __init__(self):
-        super(SignatureField, self).__init__(_('Place, date and signature'))
+    def __init__(self, label=None):
+        if label is None:
+            label = _('Place, date and signature')
+        super(SignatureField, self).__init__(label)
 
 
 class PostalCodeAndCityField(FlowableProxy):

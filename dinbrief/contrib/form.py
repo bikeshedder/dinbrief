@@ -22,7 +22,10 @@ class FlowableProxy(object):
 
 class Field(FlowableProxy):
     field_height = 5*mm
-    def __init__(self, label):
+
+    def __init__(self, label, field_height=None):
+        if field_height is not None:
+            self.field_height = field_height
         self.flowable = Table(
             data=[
                 [''], # empty row for the text
@@ -46,13 +49,13 @@ class Field(FlowableProxy):
 class SignatureField(Field):
     field_height = 15*mm
 
-    def __init__(self, label=None):
+    def __init__(self, label=None, field_height=None):
         if label is None:
             label = _('Place, date and signature')
-        super(SignatureField, self).__init__(label)
+        super(SignatureField, self).__init__(label, field_height)
 
 
-class TwoSignaturesField(Field):
+class TwoSignaturesField(FlowableProxy):
     field_height = 15*mm
 
     def __init__(self, label_left, label_right, field_height=None):

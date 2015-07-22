@@ -31,6 +31,7 @@ setup(
     url='https://bitbucket.org/terreon/dinbrief',
     packages=['dinbrief', 'dinbrief.invoice', 'dinbrief.contrib'],
     #test_suite='dinbrief.tests',
+    include_package_data=True,
     install_requires=read('requirements.txt').split('\n'),
     classifiers=[
         'Development Status :: 4 - Beta',

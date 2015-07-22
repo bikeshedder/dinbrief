@@ -1,3 +1,5 @@
 pillow
 qrcode
 reportlab
+sphinx
+sphinx_rtd_theme

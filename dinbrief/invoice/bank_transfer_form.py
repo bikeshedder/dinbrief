@@ -10,7 +10,6 @@ from reportlab.platypus import Spacer
 from reportlab.platypus.tables import Table
 from reportlab.platypus.tables import TableStyle
 
-from ..constants import CONTENT_WIDTH
 from ..optional_django import ugettext as _
 from ..optional_django import number_format
 from ..styles import styles

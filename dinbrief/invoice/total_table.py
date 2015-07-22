@@ -10,13 +10,12 @@ from reportlab.platypus import Spacer
 from reportlab.platypus.tables import Table
 from reportlab.platypus.tables import TableStyle
 
-from ..constants import CONTENT_WIDTH
 from ..optional_django import ugettext as _
 from ..optional_django import number_format
 from ..styles import styles
 
 
-def TotalTable(invoice):
+def TotalTable(brief_template, invoice):
 
     table_style = [
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -27,7 +26,7 @@ def TotalTable(invoice):
     ]
 
     col_widths = [0, 32*mm, 24*mm]
-    col_widths[0] = CONTENT_WIDTH - sum(col_widths)
+    col_widths[0] = brief_template.CONTENT_WIDTH - sum(col_widths)
 
     if invoice.vat_items:
         net_row = 0

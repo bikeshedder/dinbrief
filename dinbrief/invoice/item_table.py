@@ -10,7 +10,6 @@ from reportlab.platypus import Paragraph
 from reportlab.platypus.tables import Table
 from reportlab.platypus.tables import TableStyle
 
-from ..constants import CONTENT_WIDTH
 from ..optional_django import ugettext as _
 from ..optional_django import number_format
 from ..optional_django import date_format
@@ -23,7 +22,7 @@ Cell = partial(Paragraph, style=styles['TableCell'])
 Number = partial(Paragraph, style=styles['TableNumber'])
 
 
-def ItemTable(invoice):
+def ItemTable(brief_template, invoice):
 
     style = [
         ('VALIGN', (0, 0), (-1,  0), 'BOTTOM'),
@@ -54,7 +53,7 @@ def ItemTable(invoice):
             20*mm, # quantity
             26*mm  # sum price
     ]
-    col_widths[1] = CONTENT_WIDTH - sum(col_widths)
+    col_widths[1] = brief_template.CONTENT_WIDTH - sum(col_widths)
 
     def data_generator():
         # header

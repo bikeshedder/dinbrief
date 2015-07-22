@@ -10,12 +10,14 @@ from reportlab.platypus import Paragraph
 from reportlab.platypus.flowables import KeepTogether
 from reportlab.platypus.flowables import Spacer
 
-from dinbrief.constants import CONTENT_WIDTH
 from dinbrief.document import Document
 from dinbrief.invoice import Invoice, Item, ItemTable, TotalTable
 from dinbrief.invoice import BankTransferForm
 from dinbrief.styles import styles
 from dinbrief.template import BriefTemplate
+from dinbrief.template import BasePageTemplate
+from dinbrief.contrib.form import SignatureField
+from dinbrief.contrib.form import TwoSignaturesField
 
 
 FOOD_VAT = Decimal('0.07')
@@ -29,14 +31,20 @@ with open('test.pdf', 'wb') as fh:
             Item(3, u'Backautomat miete', price=Decimal('50'), vat_rate=DEFAULT_VAT, quantity=4, unit='Tag', period=u'04.08.2012 - 07.10.2012'),
             Item(4, u'Versicherungspauschale: Personenschäden bis 100.000 EUR, Sachschäden bis 50.000 EUR.', price=Decimal('30'), vat_rate=DEFAULT_VAT),
         ])
+    template = BriefTemplate()
     document = Document(
         sender=[
             u'Musterfirma',
             u'Finkengasse 1',
-            u'00000 Musterort'
+            u'00000 Musterort',
+            u'Extra Lange Adresse',
+            u'Die in zwei Zeilen umbricht',
         ],
         recipient=[
+            u'Adresse zurück',
             u'Max Mustermann',
+            u'Raum 5',
+            u'Gebäude 1',
             u'Lärchenweg 22',
             u'00000 Musterort'
         ],
@@ -45,10 +53,10 @@ with open('test.pdf', 'wb') as fh:
             Paragraph(u'Rechnung 2012-0815', styles['Subject']),
             #Paragraph(u'Sehr geehrter Herr Mustermann,', styles['Greeting']),
             #Paragraph(u'Hiermit möchten wir Ihnen nachfolgende Posten in Rechnung stellen:', styles['Message']),
-            Spacer(CONTENT_WIDTH, 2*mm),
-            ItemTable(invoice),
-            TotalTable(invoice),
-            Spacer(CONTENT_WIDTH, 10*mm),
+            Spacer(template.CONTENT_WIDTH, 2*mm),
+            ItemTable(template, invoice),
+            TotalTable(template, invoice),
+            Spacer(template.CONTENT_WIDTH, 10*mm),
             BankTransferForm(
                 account_holder='Muster AG',
                 iban='DE36 0000 0000 0000 0000 00',
@@ -56,6 +64,11 @@ with open('test.pdf', 'wb') as fh:
                 amount=invoice.gross,
                 reference='2012-0815',
                 show_qrcode=True),
-        ])
-    template = BriefTemplate(fh, document)
-    template.build(document.content)
+            SignatureField('Default signature'),
+            SignatureField('Big signature', 35*mm),
+            SignatureField('Big signature', 35*mm),
+            TwoSignaturesField('Signature1', 'Signature2'),
+            TwoSignaturesField('Signature1', 'Signature2', value_left='Birstein, 01.01.1970', value_right='Hainburg 01.01.1970'),
+        ]
+    )
+    template.render(document, fh)

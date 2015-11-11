@@ -23,6 +23,9 @@ def TotalTable(brief_template, invoice):
         ('RIGHTPADDING', (0, 0), (-1, -1), 2*mm),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 1*mm),
         ('LEFTPADDING', (0, 0), (-1, -1), 2*mm),
+        # no padding on the far left and far right
+        ('LEFTPADDING', (0, 0), (0, -1), 0),
+        ('RIGHTPADDING', (-1, 0), (-1, -1), 0),
     ]
 
     col_widths = [0, 32*mm, 24*mm]

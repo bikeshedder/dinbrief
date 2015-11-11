@@ -29,6 +29,7 @@ with open('test.pdf', 'wb') as fh:
             Item(1, u'Donut', price=Decimal('1.00'), vat_rate=FOOD_VAT, quantity=100),
             Item(2, u'Brezel', price=Decimal('0.50'), vat_rate=FOOD_VAT, quantity=200, discount=Decimal('0.25')),
             Item(3, u'Backautomat miete', price=Decimal('50'), vat_rate=DEFAULT_VAT, quantity=4, unit='Tag', period=u'04.08.2012 - 07.10.2012'),
+            Item(3, u'Servicepauschale', price=Decimal('150'), vat_rate=DEFAULT_VAT, quantity=3, unit='Monat', period=u'04.08.2012 - 03.12.2012'),
             Item(4, u'Versicherungspauschale: Personenschäden bis 100.000 EUR, Sachschäden bis 50.000 EUR.', price=Decimal('30'), vat_rate=DEFAULT_VAT),
         ])
     template = BriefTemplate()

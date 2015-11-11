@@ -33,6 +33,9 @@ def ItemTable(brief_template, invoice):
         ('RIGHTPADDING', (0, 0), (-1, -1), 2*mm),
         ('BOTTOMPADDING', (0, 0), (-1, -1), 3*mm),
         ('LEFTPADDING', (0, 0), (-1, -1), 2*mm),
+        # no padding on the far left and far right
+        ('LEFTPADDING', (0, 0), (0, -1), 0),
+        ('RIGHTPADDING', (-1, 0), (-1, -1), 0),
         # no padding between net price and unit
         ('RIGHTPADDING', (3, 0), (3, -1), 0),
         ('LEFTPADDING', (4, 0), (4, -1), 0),
@@ -49,7 +52,7 @@ def ItemTable(brief_template, invoice):
             24*mm if show_date_column else # date
             0, # neither period nor date
             21*mm, # unit price
-            10*mm, # unit
+            13*mm, # unit
             20*mm, # quantity
             26*mm  # sum price
     ]

@@ -5,7 +5,8 @@ class Item(object):
 
     def __init__(self, position=0, text='', period='', date=None,
             price=Decimal(0), unit='', quantity=Decimal(1),
-            discount=Decimal(0), vat_rate=Decimal(0)):
+            discount=Decimal(0), vat_rate=Decimal(0),
+            type='item'):
         self.position = position
         self.text = text
         self.period = period
@@ -15,6 +16,7 @@ class Item(object):
         self.quantity = quantity
         self.discount = discount
         self.vat_rate = vat_rate
+        self.type = type
 
     @property
     def subtotal(self):

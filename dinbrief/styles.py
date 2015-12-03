@@ -130,6 +130,11 @@ styles.add(ParagraphStyle(
     parent=styles['TableCell']))
 
 styles.add(ParagraphStyle(
+    name='TableTitle',
+    fontName='Helvetica-Bold',
+    parent=styles['TableCell']))
+
+styles.add(ParagraphStyle(
     name='GrossTableCell',
     fontName='Helvetica-Bold',
     parent=styles['TableCell']))

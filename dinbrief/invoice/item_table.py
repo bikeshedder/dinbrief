@@ -20,6 +20,9 @@ Head = partial(Paragraph, style=styles['TableHead'])
 HeadRight = partial(Paragraph, style=styles['TableHeadRight'])
 Cell = partial(Paragraph, style=styles['TableCell'])
 Number = partial(Paragraph, style=styles['TableNumber'])
+Title = partial(Paragraph, style=styles['TableTitle'])
+
+title_bgcolor = colors.CMYKColor(black=0.1)
 
 
 def ItemTable(brief_template, invoice):
@@ -74,35 +77,47 @@ def ItemTable(brief_template, invoice):
         row = 0
         for item in invoice.items:
             row += 1
-            if not (item.period or item.date):
-                style.append(('SPAN', (1, row), (2, row)))
-            yield (
-                Number(u'%s' % item.position),
-                Cell(escape(item.text)),
-                Cell(escape(item.period) if item.period else
-                     escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),
-                Number(u'%s €' % number_format(item.price, 2)),
-                Cell((u'/%s' % escape(item.unit))
-                    if item.unit else u''),
-                Number(number_format(item.quantity, 2)),
-                Number(u'%s €' % number_format(item.subtotal, 2)),
-            )
-            if item.discount:
-                row += 1
-                percentage = number_format(item.discount_percentage)
+            item_type = getattr(item, 'type', 'item')
+            if item_type == 'item':
+                if not (item.period or item.date):
+                    style.append(('SPAN', (1, row), (2, row)))
                 yield (
-                    Cell(u''),
-                    Cell((u'%s%% ' % percentage) + _('discount')),
-                    Cell(u''),
-                    Cell(u''),
-                    Cell(u''),
-                    Cell(u''),
-                    Number(u'–%s €' % number_format(item.discount_amount, 2)),
+                    Number(u'%s' % item.position),
+                    Cell(escape(item.text)),
+                    Cell(escape(item.period) if item.period else
+                         escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),
+                    Number(u'%s €' % number_format(item.price, 2)),
+                    Cell((u'/%s' % escape(item.unit))
+                        if item.unit else u''),
+                    Number(number_format(item.quantity, 2)),
+                    Number(u'%s €' % number_format(item.subtotal, 2)),
                 )
-                style.append(('TOPPADDING', (0, row), (-1, row), 0))
-            # draw line below item
-            style.append(('LINEBELOW', (0, row), (-1, row),
-                0.1*mm, colors.black))
+                if item.discount:
+                    row += 1
+                    percentage = number_format(item.discount_percentage)
+                    yield (
+                        Cell(u''),
+                        Cell((u'%s%% ' % percentage) + _('discount')),
+                        Cell(u''),
+                        Cell(u''),
+                        Cell(u''),
+                        Cell(u''),
+                        Number(u'–%s €' % number_format(item.discount_amount, 2)),
+                    )
+                    style.append(('TOPPADDING', (0, row), (-1, row), 0))
+                # draw line below item
+                style.append(('LINEBELOW', (0, row), (-1, row),
+                    0.1*mm, colors.black))
+            elif item_type == 'title':
+                style.append(('SPAN', (1, row), (6, row)))
+                style.append(('BACKGROUND', (0, row), (-1, row),
+                        title_bgcolor))
+                style.append(('LINEBELOW', (0, row), (-1, row),
+                        0.1*mm, colors.black))
+                yield (
+                    Number(u'%s' % item.position),
+                    Title(escape(item.text)),
+                )
 
     return Table(
         data=list(data_generator()),

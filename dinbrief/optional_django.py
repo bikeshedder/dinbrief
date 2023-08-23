@@ -1,10 +1,10 @@
 # Use functions provided by django but do not depend on it.
 
 try:
-    from django.utils.translation import gettext, ugettext
+    from django.utils.translation import gettext
 except ImportError:
     from gettext import gettext
-    ugettext = gettext
+    gettext = gettext
 
 try:
     from django.utils.formats import number_format

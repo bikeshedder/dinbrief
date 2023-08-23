@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from decimal import Decimal
 from functools import partial
 from xml.sax.saxutils import escape
@@ -10,7 +8,7 @@ from reportlab.platypus import Paragraph
 from reportlab.platypus.tables import Table
 from reportlab.platypus.tables import TableStyle
 
-from ..optional_django import ugettext as _
+from ..optional_django import gettext as _
 from ..optional_django import number_format
 from ..optional_django import date_format
 from ..styles import styles

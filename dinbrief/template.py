@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 
 from xml.sax.saxutils import escape
 

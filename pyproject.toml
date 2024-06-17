@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dinbrief"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Michael P. Jung <michael.jung@terreon.de>"]
 license = "BSD OR MIT OR Apache-2.0"
 readme = "README.md"
@@ -12,7 +12,8 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: BSD License",
-    "Programming Language :: Python :: 2.7",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -21,6 +22,9 @@ classifiers = [
 python = "^3.8"
 reportlab = "^4.0.4"
 qrcode = "^7.4.2"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.9"
 
 [build-system]
 requires = ["poetry>=0.12"]

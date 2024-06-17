@@ -2,7 +2,7 @@
 name = "dinbrief"
 version = "0.4.0"
 authors = ["Michael P. Jung <michael.jung@terreon.de>"]
-license = "BSD-2-Clause"
+license = "BSD OR MIT OR Apache-2.0"
 readme = "README.md"
 description = "PDF renderer for DIN 5008 and DIN 676 compliant letters and invoices"
 keywords = ["dinbrief", "DIN", "5008", "676", "brief", "letter", "invoice", "pdf"]

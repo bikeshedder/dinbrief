@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dinbrief"
-version = "0.5.0"
+version = "0.5.1"
 authors = ["Michael P. Jung <michael.jung@terreon.de>"]
 license = "BSD OR MIT OR Apache-2.0"
 readme = "README.md"
@@ -19,9 +19,9 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 reportlab = "^4.0.4"
-qrcode = "^7.4.2"
+qrcode = "^8.0"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.9"

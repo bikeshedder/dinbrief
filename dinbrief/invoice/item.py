@@ -2,11 +2,19 @@ from decimal import Decimal
 
 
 class Item:
-
-    def __init__(self, position=0, text='', period='', date=None,
-            price=Decimal(0), unit='', quantity=Decimal(1),
-            discount=Decimal(0), vat_rate=Decimal(0),
-            type='item'):
+    def __init__(
+        self,
+        position=0,
+        text="",
+        period="",
+        date=None,
+        price=Decimal(0),
+        unit="",
+        quantity=Decimal(1),
+        discount=Decimal(0),
+        vat_rate=Decimal(0),
+        type="item",
+    ):
         self.position = position
         self.text = text
         self.period = period

@@ -5,9 +5,9 @@ from .item_table import ItemTable
 from .total_table import TotalTable
 
 __all__ = [
-    'BankTransferForm',
-    'Invoice',
-    'Item',
-    'ItemTable',
-    'TotalTable',
+    "BankTransferForm",
+    "Invoice",
+    "Item",
+    "ItemTable",
+    "TotalTable",
 ]

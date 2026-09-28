@@ -8,14 +8,17 @@ except ImportError:
 try:
     from django.utils.formats import number_format
 except ImportError:
-    def number_format(value, decimal_places=''):
-        return f'{value:.{decimal_places or 0}f}'
+
+    def number_format(value, decimal_places=""):
+        return f"{value:.{decimal_places or 0}f}"
+
 
 try:
     from django.utils.formats import date_format
 except ImportError:
+
     def date_format(value, format=None):
-        return f'{value}'
+        return f"{value}"
 
 
-__all__ = ['date_format', 'gettext', 'number_format']
+__all__ = ["date_format", "gettext", "number_format"]

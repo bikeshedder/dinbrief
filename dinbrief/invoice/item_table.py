@@ -60,6 +60,10 @@ def ItemTable(brief_template, invoice):
     ]
     col_widths[1] = brief_template.CONTENT_WIDTH - sum(col_widths)
 
+    if not (show_period_column or show_date_column):
+        # the period/date column has zero width
+        style.append(("SPAN", (1, 0), (2, 0)))
+
     def data_generator():
         # header
         yield (

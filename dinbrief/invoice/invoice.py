@@ -1,19 +1,22 @@
+from decimal import Decimal
+
+from .item import Item
 from .vat_item import VatItem
 
 
 class Invoice:
-    def __init__(self, items=None, currency="€"):
+    def __init__(self, items: list[Item] | None = None, currency: str = "€"):
         self.items = items or []
         self.currency = currency
 
-    def recalculate(self):
+    def recalculate(self) -> None:
         # VAT items are computed on demand. This method is kept for
         # backwards compatibility.
         pass
 
     @property
-    def vat_items(self):
-        d = {}
+    def vat_items(self) -> list[VatItem]:
+        d: dict[Decimal, VatItem] = {}
         for item in self.items:
             if not item.vat_rate:
                 continue
@@ -26,9 +29,11 @@ class Invoice:
         return sorted(d.values(), key=lambda item: item.rate)
 
     @property
-    def gross(self):
-        return self.net + sum(vat_item.amount for vat_item in self.vat_items)
+    def gross(self) -> Decimal:
+        return self.net + sum(
+            (vat_item.amount for vat_item in self.vat_items), Decimal(0)
+        )
 
     @property
-    def net(self):
-        return sum(item.total for item in self.items)
+    def net(self) -> Decimal:
+        return sum((item.total for item in self.items), Decimal(0))

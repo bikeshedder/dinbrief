@@ -1,3 +1,4 @@
+import datetime
 import io
 from decimal import Decimal
 
@@ -12,7 +13,7 @@ from dinbrief.template import BriefTemplate
     "item",
     [
         Item(1, "Thing", price=Decimal(1)),
-        Item(1, "Thing", price=Decimal(1), date="01.01.1970"),
+        Item(1, "Thing", price=Decimal(1), date=datetime.date(1970, 1, 1)),
         Item(1, "Thing", price=Decimal(1), period="01.01.1970 - 31.01.1970"),
     ],
     ids=["no-date-or-period", "date", "period"],

@@ -1,16 +1,21 @@
+from collections.abc import Iterator
+from typing import Any
+
 from reportlab.lib import colors
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph, Spacer
+from reportlab.platypus import Flowable, Paragraph, Spacer
 from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
 from ..optional_django import number_format
 from ..styles import styles
+from ..template import BriefTemplate
+from .invoice import Invoice
 
 
-def TotalTable(brief_template, invoice):
+def TotalTable(brief_template: BriefTemplate, invoice: Invoice) -> Table:
 
-    table_style: list[tuple] = [
+    table_style: list[tuple[Any, ...]] = [
         ("ALIGN", (0, 0), (-1, -1), "LEFT"),
         ("TOPPADDING", (0, 0), (-1, -1), 1 * mm),
         ("RIGHTPADDING", (0, 0), (-1, -1), 2 * mm),
@@ -36,7 +41,7 @@ def TotalTable(brief_template, invoice):
             ("LINEABOVE", (1, gross_row), (-1, gross_row), 0.3 * mm, colors.black),
         ]
 
-        def data_generator():
+        def data_with_vat() -> Iterator[tuple[Flowable, ...]]:
             yield (
                 Paragraph("", styles["TableCell"]),
                 Paragraph(_("Sum (net)"), styles["TableCell"]),
@@ -65,6 +70,8 @@ def TotalTable(brief_template, invoice):
                     styles["GrossValueTableCell"],
                 ),
             )
+
+        data = list(data_with_vat())
     else:
         net_row = 0
         gross_row = 1
@@ -76,7 +83,7 @@ def TotalTable(brief_template, invoice):
             ("LINEABOVE", (1, gross_row), (-1, gross_row), 0.3 * mm, colors.black),
         ]
 
-        def data_generator():
+        def data_without_vat() -> Iterator[tuple[Flowable, ...]]:
             yield (
                 Spacer(0, 0),
                 Spacer(0, 0),
@@ -91,6 +98,6 @@ def TotalTable(brief_template, invoice):
                 ),
             )
 
-    return Table(
-        data=list(data_generator()), colWidths=col_widths, style=TableStyle(table_style)
-    )
+        data = list(data_without_vat())
+
+    return Table(data=data, colWidths=col_widths, style=TableStyle(table_style))

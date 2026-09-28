@@ -1,3 +1,4 @@
+import datetime
 import subprocess
 import sys
 from decimal import Decimal
@@ -12,7 +13,7 @@ def test_number_format():
 
 
 def test_date_format():
-    assert date_format("01.01.1970") == "01.01.1970"
+    assert date_format(datetime.date(1970, 1, 1)) == "1970-01-01"
 
 
 DJANGO = """

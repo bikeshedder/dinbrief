@@ -1,21 +1,33 @@
+from typing import TYPE_CHECKING, Any
+
 from reportlab.lib import colors
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Flowable, Paragraph
 from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
 from ..styles import styles
 
+if TYPE_CHECKING:
+    # Proxies can be used wherever reportlab expects a flowable.
+    _FlowableProxyBase = Flowable
+else:
+    _FlowableProxyBase = object
 
-class FlowableProxy:
-    def __getattr__(self, name):
+
+class FlowableProxy(_FlowableProxyBase):
+    flowable: Flowable
+
+    def __getattr__(self, name: str) -> Any:
         return getattr(self.flowable, name)
 
 
 class Field(FlowableProxy):
-    field_height = 5 * mm
+    field_height: float = 5 * mm
 
-    def __init__(self, label, field_height=None, value=None):
+    def __init__(
+        self, label: str, field_height: float | None = None, value: str | None = None
+    ):
         if field_height is not None:
             self.field_height = field_height
         self.flowable = Table(
@@ -43,22 +55,27 @@ class Field(FlowableProxy):
 class SignatureField(Field):
     field_height = 15 * mm
 
-    def __init__(self, label=None, field_height=None, value=None):
+    def __init__(
+        self,
+        label: str | None = None,
+        field_height: float | None = None,
+        value: str | None = None,
+    ):
         if label is None:
             label = _("Place, date and signature")
         super().__init__(label, field_height, value)
 
 
 class TwoSignaturesField(FlowableProxy):
-    field_height = 15 * mm
+    field_height: float = 15 * mm
 
     def __init__(
         self,
-        label_left,
-        label_right,
-        field_height=None,
-        value_left=None,
-        value_right=None,
+        label_left: str,
+        label_right: str,
+        field_height: float | None = None,
+        value_left: str | None = None,
+        value_right: str | None = None,
     ):
         if field_height is not None:
             self.field_height = field_height
@@ -89,9 +106,9 @@ class TwoSignaturesField(FlowableProxy):
 
 
 class PostalCodeAndCityField(FlowableProxy):
-    field_height = 5 * mm
+    field_height: float = 5 * mm
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.flowable = Table(
             data=[
                 ["", "", ""],  # empty row for the text

@@ -1,6 +1,10 @@
+from collections.abc import Iterator
+from decimal import Decimal
+from typing import Any
+
 from reportlab.lib import colors
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Flowable, Paragraph
 from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
@@ -9,21 +13,22 @@ from ..styles import styles
 
 
 def BankTransferForm(
-    account_holder,
-    iban,
-    bic,
-    reference,
-    amount,
-    currency="EUR",
-    currency_label="€",
-    show_qrcode=False,
-):
+    account_holder: str,
+    iban: str,
+    bic: str,
+    reference: str,
+    amount: Decimal,
+    currency: str = "EUR",
+    currency_label: str = "€",
+    show_qrcode: bool = False,
+) -> Table:
 
     col_widths = [40 * mm, 60 * mm]
     row_heights = [7 * mm, 6 * mm, 6 * mm, 6 * mm, 7 * mm]
 
-    table_style = []
+    table_style: list[tuple[Any, ...]] = []
 
+    qrcode_image = None
     if show_qrcode:
         from ..contrib import qrcode
 
@@ -65,11 +70,11 @@ def BankTransferForm(
         ("LINEBELOW", (0, -1), (-1, -1), 0.2 * mm, colors.black),
     ]
 
-    def data_generator():
+    def data_generator() -> Iterator[tuple[Flowable, ...]]:
         yield (
             Paragraph(_("Account holder") + ":", styles["TableCell"]),
             Paragraph(account_holder, styles["TableCell"]),
-        ) + ((qrcode_image,) if show_qrcode else ())
+        ) + ((qrcode_image,) if qrcode_image is not None else ())
         yield (
             Paragraph(_("IBAN") + ":", styles["TableCell"]),
             Paragraph(iban, styles["TableCell"]),

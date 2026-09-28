@@ -1,14 +1,18 @@
+from collections.abc import Iterator
 from functools import partial
+from typing import Any
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph
+from reportlab.platypus import Flowable, Paragraph
 from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import date_format, number_format
 from ..optional_django import gettext as _
 from ..styles import styles
+from ..template import BriefTemplate
+from .invoice import Invoice
 
 Head = partial(Paragraph, style=styles["TableHead"])
 HeadRight = partial(Paragraph, style=styles["TableHeadRight"])
@@ -19,9 +23,9 @@ Title = partial(Paragraph, style=styles["TableTitle"])
 title_bgcolor = colors.CMYKColor(black=0.1)
 
 
-def ItemTable(brief_template, invoice):
+def ItemTable(brief_template: BriefTemplate, invoice: Invoice) -> Table:
 
-    style: list[tuple] = [
+    style: list[tuple[Any, ...]] = [
         ("VALIGN", (0, 0), (-1, 0), "BOTTOM"),
         ("VALIGN", (0, 1), (-1, -1), "TOP"),
         ("LINEBELOW", (0, 0), (-1, 0), 0.3 * mm, colors.black),
@@ -64,7 +68,7 @@ def ItemTable(brief_template, invoice):
         # the period/date column has zero width
         style.append(("SPAN", (1, 0), (2, 0)))
 
-    def data_generator():
+    def data_generator() -> Iterator[tuple[Flowable, ...]]:
         # header
         yield (
             HeadRight("#"),

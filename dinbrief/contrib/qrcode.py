@@ -1,16 +1,18 @@
+from decimal import Decimal
 from io import BytesIO
 
 import qrcode
+import qrcode.constants
 from reportlab.platypus.flowables import Image
 
 
 class _QRCodeBytesIO(BytesIO):
     # reportlab uses repr() of file-like objects as image file name
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "qrcode.png"
 
 
-def qrcode_image(data):
+def qrcode_image(data: str) -> Image:
     # create QRCode object
     code = qrcode.QRCode(
         box_size=1, border=0, error_correction=qrcode.constants.ERROR_CORRECT_M
@@ -27,8 +29,14 @@ def qrcode_image(data):
 
 
 def sepa_credit_transfer(
-    account_holder, iban, bic, amount, reference, purpose="", currency="EUR"
-):
+    account_holder: str,
+    iban: str,
+    bic: str,
+    amount: Decimal,
+    reference: str,
+    purpose: str = "",
+    currency: str = "EUR",
+) -> Image:
     """
     Create QRCode object according to EPC069-12:
     https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation

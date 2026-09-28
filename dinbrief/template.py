@@ -1,33 +1,44 @@
+from typing import IO, Any, cast
 from xml.sax.saxutils import escape
 
 from reportlab import platypus
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
+from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import (
+    BaseDocTemplate,
+    Flowable,
     Frame,
     PageTemplate,
     Paragraph,
 )
 
+from .document import Document
 from .styles import styles
 
 
 class BasePageTemplate(PageTemplate):
-    def __init__(self, brief_template, document, *args, **kwargs):
+    def __init__(
+        self,
+        brief_template: "BriefTemplate",
+        document: Document,
+        *args: Any,
+        **kwargs: Any,
+    ):
         self.brief_template = brief_template
         self.document = document
         super().__init__(*args, **kwargs)
 
-    def afterDrawPage(self, canv, doc):
+    def afterDrawPage(self, canv: Canvas, doc: BaseDocTemplate) -> None:
         self.draw_header(canv)
         self.draw_footer(canv)
         self.draw_marks(canv)
 
-    def draw_header(self, canvas):
+    def draw_header(self, canvas: Canvas) -> None:
         pass
 
-    def draw_marks(self, canvas):
+    def draw_marks(self, canvas: Canvas) -> None:
         canvas.saveState()
         canvas.setLineWidth(0.1 * mm)
 
@@ -51,12 +62,12 @@ class BasePageTemplate(PageTemplate):
 
         canvas.restoreState()
 
-    def draw_footer(self, canvas):
+    def draw_footer(self, canvas: Canvas) -> None:
         pass
 
 
 class FirstPageTemplate(BasePageTemplate):
-    def __init__(self, brief_template, document):
+    def __init__(self, brief_template: "BriefTemplate", document: Document):
         super().__init__(
             brief_template=brief_template,
             document=document,
@@ -76,7 +87,7 @@ class FirstPageTemplate(BasePageTemplate):
             ],
         )
 
-    def draw_address(self, canvas):
+    def draw_address(self, canvas: Canvas) -> None:
         """
         canvas.saveState()
 
@@ -125,7 +136,7 @@ class FirstPageTemplate(BasePageTemplate):
             canvas,
         )
 
-    def draw_infobox(self, canvas):
+    def draw_infobox(self, canvas: Canvas) -> None:
         infobox = Frame(
             self.brief_template.INFOBOX_X,
             self.brief_template.INFOBOX_Y,
@@ -139,7 +150,7 @@ class FirstPageTemplate(BasePageTemplate):
         for floatable in self.document.infobox:
             infobox.add(floatable, canvas)
 
-    def draw_date(self, canvas):
+    def draw_date(self, canvas: Canvas) -> None:
         frame = Frame(
             self.brief_template.CONTENT_LEFT,
             self.brief_template.DATE_Y,
@@ -152,7 +163,7 @@ class FirstPageTemplate(BasePageTemplate):
         )
         frame.add(Paragraph(escape(self.document.date), styles["Date"]), canvas)
 
-    def afterDrawPage(self, canv, doc):
+    def afterDrawPage(self, canv: Canvas, doc: BaseDocTemplate) -> None:
         BasePageTemplate.afterDrawPage(self, canv, doc)
         self.draw_address(canv)
         self.draw_infobox(canv)
@@ -160,7 +171,7 @@ class FirstPageTemplate(BasePageTemplate):
 
 
 class LaterPageTemplate(BasePageTemplate):
-    def __init__(self, brief_template, document):
+    def __init__(self, brief_template: "BriefTemplate", document: Document):
         super().__init__(
             brief_template=brief_template,
             document=document,
@@ -178,7 +189,9 @@ class LaterPageTemplate(BasePageTemplate):
 
 
 class BriefDocTemplate(platypus.BaseDocTemplate):
-    def __init__(self, brief_template, fh, document):
+    def __init__(
+        self, brief_template: "BriefTemplate", fh: str | IO[bytes], document: Document
+    ):
         super().__init__(
             fh,
             pagesize=brief_template.PAGE_SIZE,
@@ -189,13 +202,17 @@ class BriefDocTemplate(platypus.BaseDocTemplate):
             title=document.title,
             subject=document.subject,
             author=document.author,
-            keywords=document.keywords,
+            keywords=(
+                [document.keywords]
+                if isinstance(document.keywords, str)
+                else list(document.keywords or [])
+            ),
             creator=document.creator,
         )
 
-    def handle_pageBegin(self):
-        self._handle_pageBegin()
-        self._handle_nextPageTemplate("Later")
+    def handle_pageBegin(self) -> None:
+        super().handle_pageBegin()
+        self.handle_nextPageTemplate("Later")
 
 
 class BriefTemplate:
@@ -235,13 +252,13 @@ class BriefTemplate:
     DATE_Y = 45 * mm
     DATE_HEIGHT = PAGE_HEIGHT - 140 * mm
 
-    def render(self, document, fh):
+    def render(self, document: Document, fh: str | IO[bytes]) -> None:
         # FIXME add support for document lists
         document_template = BriefDocTemplate(self, fh, document)
-        document_template.build(document.content)
+        document_template.build(cast(list[Flowable], document.content))
 
-    def get_first_page_template(self, document):
+    def get_first_page_template(self, document: Document) -> PageTemplate:
         return FirstPageTemplate(self, document)
 
-    def get_later_page_template(self, document):
+    def get_later_page_template(self, document: Document) -> PageTemplate:
         return LaterPageTemplate(self, document)

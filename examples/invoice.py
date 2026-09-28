@@ -15,7 +15,7 @@ from dinbrief.template import BriefTemplate
 FOOD_VAT = Decimal("0.07")
 DEFAULT_VAT = Decimal("0.19")
 
-with open("test.pdf", "wb") as fh:
+with open("invoice.pdf", "wb") as fh:
     invoice = Invoice(
         items=[
             Item(1, "Material", type="title"),

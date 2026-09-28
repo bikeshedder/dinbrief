@@ -6,7 +6,7 @@ FOOD_VAT = Decimal("0.07")
 DEFAULT_VAT = Decimal("0.19")
 
 
-def test_item_totals():
+def test_item_totals() -> None:
     item = Item(price=Decimal("10.00"), quantity=3, discount=Decimal("0.1"))
     assert item.subtotal == Decimal("30.00")
     assert item.discount_percentage == Decimal("10.0")
@@ -14,14 +14,14 @@ def test_item_totals():
     assert item.total == Decimal("27.000")
 
 
-def test_empty_invoice():
+def test_empty_invoice() -> None:
     invoice = Invoice()
     assert invoice.net == 0
     assert invoice.vat_items == []
     assert invoice.gross == 0
 
 
-def test_vat_is_grouped_and_sorted_by_rate():
+def test_vat_is_grouped_and_sorted_by_rate() -> None:
     invoice = Invoice(
         items=[
             Item(price=Decimal(100), vat_rate=DEFAULT_VAT),
@@ -38,7 +38,7 @@ def test_vat_is_grouped_and_sorted_by_rate():
     assert invoice.gross == Decimal("194.20")
 
 
-def test_vat_is_calculated_on_discounted_amount():
+def test_vat_is_calculated_on_discounted_amount() -> None:
     invoice = Invoice(
         items=[Item(price=Decimal(100), discount=Decimal("0.1"), vat_rate=DEFAULT_VAT)]
     )
@@ -47,14 +47,14 @@ def test_vat_is_calculated_on_discounted_amount():
     assert invoice.gross == Decimal("107.10")
 
 
-def test_vat_reflects_items_added_later():
+def test_vat_reflects_items_added_later() -> None:
     invoice = Invoice()
     invoice.items.append(Item(price=Decimal(100), vat_rate=DEFAULT_VAT))
     assert invoice.vat_items[0].amount == Decimal(19)
     assert invoice.gross == Decimal(119)
 
 
-def test_title_items_do_not_affect_totals():
+def test_title_items_do_not_affect_totals() -> None:
     invoice = Invoice(
         items=[
             Item(1, "Group", type="title"),

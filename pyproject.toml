@@ -32,8 +32,13 @@ Repository = "https://github.com/bikeshedder/dinbrief"
 [dependency-groups]
 dev = [
     "django>=5.2.17",
+    "mypy>=2.3.1",
+    "pyright>=1.1.414",
     "pytest>=9.1.1",
     "ruff>=0.16.9",
+    "types-qrcode>=8.2.0.20260518",
+    "types-reportlab>=5.0.0.20260911",
+    "typing-extensions>=4.16.0",
 ]
 
 [build-system]
@@ -46,3 +51,16 @@ module-root = ""
 [tool.ty.analysis]
 # Django is an optional dependency (see dinbrief/optional_django.py)
 allowed-unresolved-imports = ["django.**"]
+
+[tool.mypy]
+files = ["dinbrief", "tests", "examples"]
+strict = true
+
+[[tool.mypy.overrides]]
+# Django is an optional dependency (see dinbrief/optional_django.py)
+module = ["django.*"]
+ignore_missing_imports = true
+
+[tool.pyright]
+include = ["dinbrief", "tests", "examples"]
+reportUnnecessaryTypeIgnoreComment = "error"

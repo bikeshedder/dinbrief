@@ -6,13 +6,13 @@ from decimal import Decimal
 from dinbrief.optional_django import date_format, number_format
 
 
-def test_number_format():
+def test_number_format() -> None:
     assert number_format(Decimal("1234.5"), 2) == "1234.50"
     assert number_format(Decimal("19.00")) == "19"
     assert number_format(Decimal("2.675"), 2) == "2.68"
 
 
-def test_date_format():
+def test_date_format() -> None:
     assert date_format(datetime.date(1970, 1, 1)) == "1970-01-01"
 
 
@@ -34,7 +34,7 @@ print(date_format(datetime.date(1970, 1, 1), "SHORT_DATE_FORMAT"))
 """
 
 
-def test_django():
+def test_django() -> None:
     # Settings are configured after importing dinbrief, which must still
     # result in Django being used.
     output = subprocess.run(

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Compute VAT items on demand so they reflect items added after creating the invoice
 - Use `Invoice.currency` in item and total tables instead of a hardcoded `€`
 - Fix `dinbrief.__version__` by reading it from the package metadata
+- Drop support for Python 3.9
 
 ## [0.5.1] - 2025-03-11
 

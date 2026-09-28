@@ -5,11 +5,14 @@ class Invoice:
     def __init__(self, items=None, currency="€"):
         self.items = items or []
         self.currency = currency
-        self.vat_items = []
-        self.recalculate()
 
     def recalculate(self):
-        self.vat_items = []
+        # VAT items are computed on demand. This method is kept for
+        # backwards compatibility.
+        pass
+
+    @property
+    def vat_items(self):
         d = {}
         for item in self.items:
             if not item.vat_rate:
@@ -20,7 +23,7 @@ class Invoice:
                 vat_item = VatItem(rate=item.vat_rate)
                 d[item.vat_rate] = vat_item
             vat_item.amount += item.vat_rate * item.total
-        self.vat_items = sorted(d.values(), key=lambda item: item.rate)
+        return sorted(d.values(), key=lambda item: item.rate)
 
     @property
     def gross(self):

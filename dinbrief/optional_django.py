@@ -1,24 +1,39 @@
 # Use functions provided by django but do not depend on it.
 
-try:
-    from django.utils.translation import gettext
-except ImportError:
-    from gettext import gettext
+import gettext as _gettext
 
 try:
-    from django.utils.formats import number_format
+    from django.conf import settings as _django_settings
 except ImportError:
-
-    def number_format(value, decimal_places=""):
-        return f"{value:.{decimal_places or 0}f}"
+    _django_settings = None
 
 
-try:
-    from django.utils.formats import date_format
-except ImportError:
+def _use_django():
+    # Django might be installed without being used, in which case
+    # its settings are not configured. This is checked on every call
+    # as the settings might be configured after importing this module.
+    return _django_settings is not None and _django_settings.configured
 
-    def date_format(value, format=None):
-        return f"{value}"
+
+def gettext(message):
+    if _use_django():
+        from django.utils.translation import gettext
+
+        return gettext(message)
+    return _gettext.gettext(message)
 
 
-__all__ = ["date_format", "gettext", "number_format"]
+def number_format(value, decimal_places=None):
+    if _use_django():
+        from django.utils.formats import number_format
+
+        return number_format(value, decimal_places)
+    return f"{value:.{decimal_places or 0}f}"
+
+
+def date_format(value, format=None):
+    if _use_django():
+        from django.utils.formats import date_format
+
+        return date_format(value, format)
+    return f"{value}"

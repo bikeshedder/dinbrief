@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix `dinbrief.__version__` by reading it from the package metadata
 - Drop support for Python 3.9
 - Fix rendering of item tables without date or period column
+- Fix crash when Django is installed but not configured
 
 ## [0.5.1] - 2025-03-11
 

@@ -1,4 +1,4 @@
-from typing import IO, Any, cast
+from typing import IO, Any
 from xml.sax.saxutils import escape
 
 from reportlab import platypus
@@ -8,7 +8,6 @@ from reportlab.lib.units import mm
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import (
     BaseDocTemplate,
-    Flowable,
     Frame,
     PageTemplate,
     Paragraph,
@@ -255,7 +254,8 @@ class BriefTemplate:
     def render(self, document: Document, fh: str | IO[bytes]) -> None:
         # FIXME add support for document lists
         document_template = BriefDocTemplate(self, fh, document)
-        document_template.build(cast(list[Flowable], document.content))
+        # reportlab consumes the list of flowables while building
+        document_template.build(list(document.content))
 
     def get_first_page_template(self, document: Document) -> PageTemplate:
         return FirstPageTemplate(self, document)

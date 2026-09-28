@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix rendering of item tables without date or period column
 - Fix crash when Django is installed but not configured
 - Add type annotations and `py.typed` marker
+- Fix rendering emptying the list of flowables passed as `Document.content`
 
 ## [0.5.1] - 2025-03-11
 

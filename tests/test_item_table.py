@@ -18,10 +18,21 @@ from dinbrief.template import BriefTemplate
     ],
     ids=["no-date-or-period", "date", "period"],
 )
-def test_render(item):
+def test_render(item: Item) -> None:
     template = BriefTemplate()
     invoice = Invoice(items=[item])
     document = Document(content=[ItemTable(template, invoice)])
     fh = io.BytesIO()
     template.render(document, fh)
     assert fh.getvalue().startswith(b"%PDF-")
+
+
+def test_render_does_not_consume_content() -> None:
+    template = BriefTemplate()
+    invoice = Invoice(items=[Item(1, "Thing", price=Decimal(1))])
+    content = [ItemTable(template, invoice)]
+    document = Document(content=content)
+    for _ in range(2):
+        fh = io.BytesIO()
+        template.render(document, fh)
+    assert len(content) == 1

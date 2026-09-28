@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-09-29
+
 - Add support for `reportlab` version `5.0`
 - Fix VAT calculation for discounted items
 - Compute VAT items on demand so they reflect items added after creating the invoice
@@ -95,7 +97,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release
 
 <!-- next-url -->
-[Unreleased]: https://github.com/bikeshedder/dinbrief/compare/v0.5.1...HEAD
+[Unreleased]: https://github.com/bikeshedder/dinbrief/compare/v0.5.2...HEAD
+[0.5.2]: https://github.com/bikeshedder/dinbrief/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/bikeshedder/dinbrief/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/bikeshedder/dinbrief/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/bikeshedder/dinbrief/compare/v0.3.4...v0.4.0

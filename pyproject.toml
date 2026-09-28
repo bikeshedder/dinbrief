@@ -1,6 +1,6 @@
 [project]
 name = "dinbrief"
-version = "0.5.1"
+version = "0.5.2"
 authors = [{ name = "Michael P. Jung", email = "michael.jung@terreon.de" }]
 license = "BSD-2-Clause OR MIT OR Apache-2.0"
 license-files = ["LICENSE-*"]

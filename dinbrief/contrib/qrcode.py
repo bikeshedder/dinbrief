@@ -31,9 +31,10 @@ def sepa_credit_transfer(
 ):
     """
     Create QRCode object according to EPC069-12:
-    http://www.europeanpaymentscouncil.eu/knowledge_bank_detail.cfm?documents_id=607
-    A list of purpose options can be found online:
-    http://www.hettwer-beratung.de/sepa-spezialwissen/sepa-technische-anforderungen/sepa-purpose-codes-vs-dta-textschl%C3%BCssel/
+    https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation
+    The purpose codes are defined in the ISO 20022 ExternalPurpose1Code
+    code set:
+    https://www.iso20022.org/catalogue-messages/additional-content-messages/external-code-sets
     """
     assert 1 <= len(account_holder) < 70
     assert len(currency) == 3

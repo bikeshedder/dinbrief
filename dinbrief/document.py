@@ -3,7 +3,7 @@ class Document:
     subject = ""
     author = ""
     keywords = None
-    creator = "http://pypi.python.org/pypi/dinbrief"
+    creator = "https://pypi.org/project/dinbrief/"
 
     sender = None
     recipient = None

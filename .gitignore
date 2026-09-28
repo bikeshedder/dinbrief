@@ -1,33 +1,16 @@
-# binary (compiled) files
-*.o
-#*.mo
+# Python
+__pycache__/
 *.py[co]
-
-# other revision control systems
-CVS/
-.svn/
-
-# OSX specific junk
-.DS_Store
-
-# Windows specific junk
-[Dd]esktop.ini
-[Tt]humbs.db
-
-# editor files
-*.swp
-*.orig
-*~
-\#*
-.\#*
-
-# Old files and backup stuff
-*.old
-*.bak
-
-# build
-/dinbrief.egg-info
-/dist
 
 # uv
 /.venv
+
+# build
+/dist
+
+# tools
+/.pytest_cache
+/.ruff_cache
+
+# example output
+/*.pdf

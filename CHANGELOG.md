@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 - Add support for `reportlab` version `5.0`
+- Fix VAT calculation for discounted items
 
 ## [0.5.1] - 2025-03-11
 

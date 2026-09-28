@@ -19,7 +19,7 @@ class Invoice:
             except KeyError:
                 vat_item = VatItem(rate=item.vat_rate)
                 d[item.vat_rate] = vat_item
-            vat_item.amount += item.vat_rate * item.subtotal
+            vat_item.amount += item.vat_rate * item.total
         self.vat_items = sorted(d.values(), key=lambda item: item.rate)
 
     @property

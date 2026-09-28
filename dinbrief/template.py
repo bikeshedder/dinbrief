@@ -179,9 +179,7 @@ class LaterPageTemplate(BasePageTemplate):
 
 class BriefDocTemplate(platypus.BaseDocTemplate):
     def __init__(self, brief_template, fh, document):
-        # super can not be used as BaseDocTemplate is an old style class.
-        platypus.BaseDocTemplate.__init__(
-            self,
+        super().__init__(
             fh,
             pagesize=brief_template.PAGE_SIZE,
             pageTemplates=[

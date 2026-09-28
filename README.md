@@ -1,5 +1,10 @@
 # dinbrief
 
+[![Latest Version](https://img.shields.io/pypi/v/dinbrief.svg)](https://pypi.org/project/dinbrief/)
+[![CI](https://img.shields.io/github/actions/workflow/status/bikeshedder/dinbrief/ci.yml?logo=github&label=CI)](https://github.com/bikeshedder/dinbrief/actions?query=workflow%3ACI)
+![Typed](https://img.shields.io/badge/typing-typed-success.svg "Typed")
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-lightgray.svg "Python 3.10+")](https://www.python.org/downloads/)
+
 This package provides code for rendering PDF letters and invoices
 compliant to DIN 5008 and DIN 676 using reportlab. A so called
 "DIN Brief" fits into "DIN-lang" window envelopes.

@@ -1,18 +1,14 @@
-from decimal import Decimal
 from functools import partial
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.units import mm, cm
+from reportlab.lib.units import mm
 from reportlab.platypus import Paragraph
-from reportlab.platypus.tables import Table
-from reportlab.platypus.tables import TableStyle
+from reportlab.platypus.tables import Table, TableStyle
 
+from ..optional_django import date_format, number_format
 from ..optional_django import gettext as _
-from ..optional_django import number_format
-from ..optional_django import date_format
 from ..styles import styles
-
 
 Head = partial(Paragraph, style=styles['TableHead'])
 HeadRight = partial(Paragraph, style=styles['TableHeadRight'])
@@ -25,7 +21,7 @@ title_bgcolor = colors.CMYKColor(black=0.1)
 
 def ItemTable(brief_template, invoice):
 
-    style = [
+    style: list[tuple] = [
         ('VALIGN', (0, 0), (-1,  0), 'BOTTOM'),
         ('VALIGN', (0, 1), (-1, -1), 'TOP'),
         ('LINEBELOW', (0, 0), (-1, 0), 0.3*mm, colors.black),
@@ -62,12 +58,12 @@ def ItemTable(brief_template, invoice):
     def data_generator():
         # header
         yield (
-            HeadRight(u'#'),
+            HeadRight('#'),
             Head(_('Description')),
             Head(_('Period') if show_period_column else
                  _('Date') if show_date_column else ''),
             HeadRight(_('Unit Price')),
-            Head(u''),
+            Head(''),
             HeadRight(_('Quantity')),
             HeadRight(_('Line Total')),
         )
@@ -80,27 +76,27 @@ def ItemTable(brief_template, invoice):
                 if not (item.period or item.date):
                     style.append(('SPAN', (1, row), (2, row)))
                 yield (
-                    Number(u'%s' % item.position),
+                    Number(f'{item.position}'),
                     Cell(escape(item.text)),
                     Cell(escape(item.period) if item.period else
-                         escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else u''),
-                    Number(u'%s €' % number_format(item.price, 2)),
-                    Cell((u'/%s' % escape(item.unit))
-                        if item.unit else u''),
+                         escape(date_format(item.date, 'SHORT_DATE_FORMAT')) if item.date else ''),
+                    Number(f'{number_format(item.price, 2)} €'),
+                    Cell(f'/{escape(item.unit)}'
+                        if item.unit else ''),
                     Number(number_format(item.quantity, 2)),
-                    Number(u'%s €' % number_format(item.subtotal, 2)),
+                    Number(f'{number_format(item.subtotal, 2)} €'),
                 )
                 if item.discount:
                     row += 1
                     percentage = number_format(item.discount_percentage)
                     yield (
-                        Cell(u''),
-                        Cell((u'%s%% ' % percentage) + _('discount')),
-                        Cell(u''),
-                        Cell(u''),
-                        Cell(u''),
-                        Cell(u''),
-                        Number(u'–%s €' % number_format(item.discount_amount, 2)),
+                        Cell(''),
+                        Cell(f'{percentage}% ' + _('discount')),
+                        Cell(''),
+                        Cell(''),
+                        Cell(''),
+                        Cell(''),
+                        Number(f'–{number_format(item.discount_amount, 2)} €'),
                     )
                     style.append(('TOPPADDING', (0, row), (-1, row), 0))
                 # draw line below item
@@ -113,7 +109,7 @@ def ItemTable(brief_template, invoice):
                 style.append(('LINEBELOW', (0, row), (-1, row),
                         0.1*mm, colors.black))
                 yield (
-                    Number(u'%s' % item.position),
+                    Number(f'{item.position}'),
                     Title(escape(item.text)),
                 )
 

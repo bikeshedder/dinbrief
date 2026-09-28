@@ -1,4 +1,4 @@
-class Document(object):
+class Document:
 
     title = ''
     subject = ''

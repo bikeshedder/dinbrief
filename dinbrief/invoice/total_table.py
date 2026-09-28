@@ -1,12 +1,8 @@
-from decimal import Decimal
-from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.units import mm, cm
-from reportlab.platypus import Paragraph
-from reportlab.platypus import Spacer
-from reportlab.platypus.tables import Table
-from reportlab.platypus.tables import TableStyle
+from reportlab.lib.units import mm
+from reportlab.platypus import Paragraph, Spacer
+from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
 from ..optional_django import number_format
@@ -15,7 +11,7 @@ from ..styles import styles
 
 def TotalTable(brief_template, invoice):
 
-    table_style = [
+    table_style: list[tuple] = [
         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
         ('TOPPADDING', (0, 0), (-1, -1), 1*mm),
         ('RIGHTPADDING', (0, 0), (-1, -1), 2*mm),
@@ -42,23 +38,23 @@ def TotalTable(brief_template, invoice):
         ]
         def data_generator():
             yield (
-                Paragraph(u'', styles['TableCell']),
-                Paragraph(_(u'Sum (net)'), styles['TableCell']),
-                Paragraph(u'%s €' % number_format(invoice.net, 2),
+                Paragraph('', styles['TableCell']),
+                Paragraph(_('Sum (net)'), styles['TableCell']),
+                Paragraph(f'{number_format(invoice.net, 2)} €',
                     styles['TableNumber']),
             )
             for vat_item in invoice.vat_items:
                 yield (
-                    Paragraph(u'', styles['TableCell']),
-                    Paragraph((u'+%s%% ' % number_format(vat_item.rate * 100)) +
+                    Paragraph('', styles['TableCell']),
+                    Paragraph(f'+{number_format(vat_item.rate * 100)}% ' +
                         _('VAT'), styles['TableCell']),
-                    Paragraph(u'%s €' % number_format(vat_item.amount, 2),
+                    Paragraph(f'{number_format(vat_item.amount, 2)} €',
                         styles['TableNumber']),
                 )
             yield (
-                Paragraph(u'', styles['TableCell']),
-                Paragraph(_(u'Sum (gross)'), styles['GrossTableCell']),
-                Paragraph(u'%s €' % number_format(invoice.gross, 2),
+                Paragraph('', styles['TableCell']),
+                Paragraph(_('Sum (gross)'), styles['GrossTableCell']),
+                Paragraph(f'{number_format(invoice.gross, 2)} €',
                     styles['GrossValueTableCell']),
             )
     else:
@@ -78,9 +74,9 @@ def TotalTable(brief_template, invoice):
                 Spacer(0, 0),
             )
             yield (
-                Paragraph(u'', styles['TableCell']),
-                Paragraph(_(u'Sum (net)'), styles['GrossTableCell']),
-                Paragraph(u'%s €' % number_format(invoice.gross, 2),
+                Paragraph('', styles['TableCell']),
+                Paragraph(_('Sum (net)'), styles['GrossTableCell']),
+                Paragraph(f'{number_format(invoice.gross, 2)} €',
                     styles['GrossValueTableCell']),
             )
 

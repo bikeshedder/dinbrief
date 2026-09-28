@@ -1,11 +1,10 @@
-from decimal import Decimal
 
 from .vat_item import VatItem
 
 
-class Invoice(object):
+class Invoice:
 
-    def __init__(self, items=None, currency=u'€'):
+    def __init__(self, items=None, currency='€'):
         self.items = items or []
         self.currency = currency
         self.vat_items = []

@@ -1,9 +1,6 @@
-from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.styles import StyleSheet1
-from reportlab.lib.units import mm, cm
-from reportlab.lib.enums import TA_LEFT, TA_RIGHT, TA_CENTER
-
+from reportlab.lib.enums import TA_RIGHT
+from reportlab.lib.styles import ParagraphStyle, StyleSheet1
+from reportlab.lib.units import mm
 
 styles = StyleSheet1()
 

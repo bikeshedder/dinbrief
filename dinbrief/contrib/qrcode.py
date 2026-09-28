@@ -1,14 +1,14 @@
-from __future__ import absolute_import
 
-try:
-    from io import BytesIO
-except ImportError:
-    from StringIO import StringIO as BytesIO
+from io import BytesIO
 
 import qrcode
 from reportlab.platypus.flowables import Image
 
-from ..styles import styles
+
+class _QRCodeBytesIO(BytesIO):
+    # reportlab uses repr() of file-like objects as image file name
+    def __repr__(self):
+        return 'qrcode.png'
 
 
 def qrcode_image(data):
@@ -21,10 +21,9 @@ def qrcode_image(data):
     code.make()
     # render QRCode as PNG into memory
     img = code.make_image()
-    img_data = BytesIO()
+    img_data = _QRCodeBytesIO()
     img.save(img_data, 'PNG')
     img_data.seek(0)
-    img_data.__repr__ = lambda: 'qrcode.png'
     # create image floatable
     return Image(img_data)
 
@@ -61,7 +60,7 @@ def sepa_credit_transfer(account_holder, iban, bic, amount, reference,
         # IBAN
         iban,
         # Amount
-        '%s%.2f' % (currency, amount),
+        f'{currency}{amount:.2f}',
         # Purpose
         purpose,
         # Reference

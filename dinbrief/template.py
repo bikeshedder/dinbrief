@@ -4,29 +4,28 @@ from xml.sax.saxutils import escape
 from reportlab import platypus
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import mm, cm
-from reportlab.platypus import Frame
-from reportlab.platypus import PageTemplate
-from reportlab.platypus import Paragraph
-from reportlab.platypus import KeepInFrame
-from reportlab.platypus import Table
-from reportlab.platypus import TableStyle
+from reportlab.lib.units import mm
+from reportlab.platypus import (
+    Frame,
+    PageTemplate,
+    Paragraph,
+)
 
 from .styles import styles
 
 
-class BasePageTemplate(PageTemplate, object):
+class BasePageTemplate(PageTemplate):
 
     def __init__(self, brief_template, document, *args, **kwargs):
         self.brief_template = brief_template
         self.document = document
-        super(BasePageTemplate, self).__init__(
+        super().__init__(
             *args, **kwargs)
 
-    def afterDrawPage(self, canvas, document):
-        self.draw_header(canvas)
-        self.draw_footer(canvas)
-        self.draw_marks(canvas)
+    def afterDrawPage(self, canv, doc):
+        self.draw_header(canv)
+        self.draw_footer(canv)
+        self.draw_marks(canv)
 
     def draw_header(self, canvas):
         pass
@@ -62,7 +61,7 @@ class BasePageTemplate(PageTemplate, object):
 class FirstPageTemplate(BasePageTemplate):
 
     def __init__(self, brief_template, document):
-        super(FirstPageTemplate, self).__init__(
+        super().__init__(
             brief_template=brief_template,
             document=document,
             id='First', frames=[
@@ -96,7 +95,7 @@ class FirstPageTemplate(BasePageTemplate):
                 0, 0, 0, 0)
         sender.add(
                 Paragraph(
-                    u' · '.join(map(escape, self.document.sender)),
+                    ' · '.join(map(escape, self.document.sender)),
                     styles['Sender']),
                 canvas)
 
@@ -107,7 +106,7 @@ class FirstPageTemplate(BasePageTemplate):
                 0, 0, 0, 0)
         recipient.add(
                 Paragraph(
-                    u'<br/>'.join(map(escape, self.document.recipient)),
+                    '<br/>'.join(map(escape, self.document.recipient)),
                     styles['Recipient']),
                 canvas)
 
@@ -130,17 +129,17 @@ class FirstPageTemplate(BasePageTemplate):
                     styles['Date']),
                 canvas)
 
-    def afterDrawPage(self, canvas, document):
-        BasePageTemplate.afterDrawPage(self, canvas, document)
-        self.draw_address(canvas)
-        self.draw_infobox(canvas)
-        self.draw_date(canvas)
+    def afterDrawPage(self, canv, doc):
+        BasePageTemplate.afterDrawPage(self, canv, doc)
+        self.draw_address(canv)
+        self.draw_infobox(canv)
+        self.draw_date(canv)
 
 
 class LaterPageTemplate(BasePageTemplate):
 
     def __init__(self, brief_template, document):
-        super(LaterPageTemplate, self).__init__(
+        super().__init__(
             brief_template=brief_template,
             document=document,
             id='Later', frames=[
@@ -174,7 +173,7 @@ class BriefDocTemplate(platypus.BaseDocTemplate):
         self._handle_nextPageTemplate('Later')
 
 
-class BriefTemplate(object):
+class BriefTemplate:
 
     PAGE_SIZE = A4
     PAGE_WIDTH = PAGE_SIZE[0]

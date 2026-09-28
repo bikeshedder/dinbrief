@@ -1,11 +1,9 @@
 from functools import partial
 
 from reportlab.lib.units import mm
-from reportlab.platypus import Paragraph
-from reportlab.platypus import Spacer
+from reportlab.platypus import Paragraph, Spacer
 
 from ..styles import styles
-
 
 P = partial(Paragraph, style=styles['Text'])
 H2 = partial(Paragraph, style=styles['H2'])

@@ -34,3 +34,7 @@ build-backend = "uv_build"
 
 [tool.uv.build-backend]
 module-root = ""
+
+[tool.ty.analysis]
+# Django is an optional dependency (see dinbrief/optional_django.py)
+allowed-unresolved-imports = ["django.**"]

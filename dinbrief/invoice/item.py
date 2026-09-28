@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 
-class Item(object):
+class Item:
 
     def __init__(self, position=0, text='', period='', date=None,
             price=Decimal(0), unit='', quantity=Decimal(1),

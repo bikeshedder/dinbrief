@@ -1,12 +1,8 @@
-from decimal import Decimal
-from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.units import mm, cm
+from reportlab.lib.units import mm
 from reportlab.platypus import Paragraph
-from reportlab.platypus import Spacer
-from reportlab.platypus.tables import Table
-from reportlab.platypus.tables import TableStyle
+from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
 from ..optional_django import number_format
@@ -14,7 +10,7 @@ from ..styles import styles
 
 
 def BankTransferForm(account_holder, iban, bic, reference, amount,
-        currency=u'EUR', currency_label=u'€', show_qrcode=False):
+        currency='EUR', currency_label='€', show_qrcode=False):
 
     col_widths = [40*mm, 60*mm]
     row_heights = [7*mm, 6*mm, 6*mm, 6*mm, 7*mm]
@@ -62,23 +58,23 @@ def BankTransferForm(account_holder, iban, bic, reference, amount,
 
     def data_generator():
         yield (
-            Paragraph(_(u'Account holder') + ':', styles['TableCell']),
+            Paragraph(_('Account holder') + ':', styles['TableCell']),
             Paragraph(account_holder, styles['TableCell'])
         ) + ((qrcode_image,) if show_qrcode else ())
         yield (
-            Paragraph(_(u'IBAN') + ':', styles['TableCell']),
+            Paragraph(_('IBAN') + ':', styles['TableCell']),
             Paragraph(iban, styles['TableCell']),
         )
         yield (
-            Paragraph(_(u'BIC') + ':', styles['TableCell']),
+            Paragraph(_('BIC') + ':', styles['TableCell']),
             Paragraph(bic, styles['TableCell']),
         )
         yield (
-            Paragraph(_(u'Amount') + ':', styles['TableCell']),
-            Paragraph(u'%s %s' % (number_format(amount, 2), currency_label), styles['TableCell']),
+            Paragraph(_('Amount') + ':', styles['TableCell']),
+            Paragraph(f'{number_format(amount, 2)} {currency_label}', styles['TableCell']),
         )
         yield (
-            Paragraph(_(u'Reference') + ':', styles['TableCell']),
+            Paragraph(_('Reference') + ':', styles['TableCell']),
             Paragraph(reference, styles['TableCell']),
         )
 

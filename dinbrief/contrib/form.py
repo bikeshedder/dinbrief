@@ -1,19 +1,15 @@
 
-from decimal import Decimal
-from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.units import mm, cm
+from reportlab.lib.units import mm
 from reportlab.platypus import Paragraph
-from reportlab.platypus import Spacer
-from reportlab.platypus.tables import Table
-from reportlab.platypus.tables import TableStyle
+from reportlab.platypus.tables import Table, TableStyle
 
 from ..optional_django import gettext as _
 from ..styles import styles
 
 
-class FlowableProxy(object):
+class FlowableProxy:
 
     def __getattr__(self, name):
         return getattr(self.flowable, name)
@@ -51,7 +47,7 @@ class SignatureField(Field):
     def __init__(self, label=None, field_height=None, value=None):
         if label is None:
             label = _('Place, date and signature')
-        super(SignatureField, self).__init__(label, field_height, value)
+        super().__init__(label, field_height, value)
 
 
 class TwoSignaturesField(FlowableProxy):

@@ -28,3 +28,6 @@ CVS/
 # build
 /dinbrief.egg-info
 /dist
+
+# uv
+/.venv

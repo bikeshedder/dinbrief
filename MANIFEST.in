@@ -1,4 +1,0 @@
-include LICENSE
-include README
-include requirements.txt
-include dinbrief/locale/*/LC_MESSAGES/*

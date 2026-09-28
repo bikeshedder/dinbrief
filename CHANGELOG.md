@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add support for `reportlab` version `5.0`
 - Fix VAT calculation for discounted items
 - Compute VAT items on demand so they reflect items added after creating the invoice
+- Use `Invoice.currency` in item and total tables instead of a hardcoded `€`
 
 ## [0.5.1] - 2025-03-11
 

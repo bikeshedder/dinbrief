@@ -40,7 +40,10 @@ def TotalTable(brief_template, invoice):
             yield (
                 Paragraph("", styles["TableCell"]),
                 Paragraph(_("Sum (net)"), styles["TableCell"]),
-                Paragraph(f"{number_format(invoice.net, 2)} €", styles["TableNumber"]),
+                Paragraph(
+                    f"{number_format(invoice.net, 2)} {invoice.currency}",
+                    styles["TableNumber"],
+                ),
             )
             for vat_item in invoice.vat_items:
                 yield (
@@ -50,14 +53,15 @@ def TotalTable(brief_template, invoice):
                         styles["TableCell"],
                     ),
                     Paragraph(
-                        f"{number_format(vat_item.amount, 2)} €", styles["TableNumber"]
+                        f"{number_format(vat_item.amount, 2)} {invoice.currency}",
+                        styles["TableNumber"],
                     ),
                 )
             yield (
                 Paragraph("", styles["TableCell"]),
                 Paragraph(_("Sum (gross)"), styles["GrossTableCell"]),
                 Paragraph(
-                    f"{number_format(invoice.gross, 2)} €",
+                    f"{number_format(invoice.gross, 2)} {invoice.currency}",
                     styles["GrossValueTableCell"],
                 ),
             )
@@ -82,7 +86,7 @@ def TotalTable(brief_template, invoice):
                 Paragraph("", styles["TableCell"]),
                 Paragraph(_("Sum (net)"), styles["GrossTableCell"]),
                 Paragraph(
-                    f"{number_format(invoice.gross, 2)} €",
+                    f"{number_format(invoice.gross, 2)} {invoice.currency}",
                     styles["GrossValueTableCell"],
                 ),
             )

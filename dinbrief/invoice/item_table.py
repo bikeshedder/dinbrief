@@ -95,10 +95,10 @@ def ItemTable(brief_template, invoice):
                         if item.date
                         else ""
                     ),
-                    Number(f"{number_format(item.price, 2)} €"),
+                    Number(f"{number_format(item.price, 2)} {invoice.currency}"),
                     Cell(f"/{escape(item.unit)}" if item.unit else ""),
                     Number(number_format(item.quantity, 2)),
-                    Number(f"{number_format(item.subtotal, 2)} €"),
+                    Number(f"{number_format(item.subtotal, 2)} {invoice.currency}"),
                 )
                 if item.discount:
                     row += 1
@@ -110,7 +110,9 @@ def ItemTable(brief_template, invoice):
                         Cell(""),
                         Cell(""),
                         Cell(""),
-                        Number(f"–{number_format(item.discount_amount, 2)} €"),
+                        Number(
+                            f"–{number_format(item.discount_amount, 2)} {invoice.currency}"
+                        ),
                     )
                     style.append(("TOPPADDING", (0, row), (-1, row), 0))
                 # draw line below item
